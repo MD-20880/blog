@@ -2,7 +2,12 @@
 import { ref,watchEffect,defineProps } from 'vue'
 import MarkdownIt from 'markdown-it';
 
-const md = MarkdownIt()
+const md = MarkdownIt({
+  html: true,
+  linkify: true,
+  typographer: true
+})
+
 const props = defineProps(['content'])
 const content = ref('')
 watchEffect(() => {
