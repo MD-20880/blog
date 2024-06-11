@@ -1,4 +1,27 @@
-import MarkdownIt from "markdown-it";
+import MarkdownIt from 'markdown-it';
+import anchor from 'markdown-it-anchor';
+
+const slugify = (s) => encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-'))
+
+function createNode(tagName, innerHTML, attributes, children) {
+    return {
+        tagName,
+        innerHTML,
+        attributes,
+        children,
+        toString() {
+            let attrs = '';
+            for (let key in this.attributes) {
+                attrs += ` ${key}="${this.attributes[key]}"`;
+            }
+            let childrenHTML = '';
+            for (let child of this.children) {
+                childrenHTML += child.toString();
+            }
+            return `<${this.tagName}${attrs}>${this.innerHTML}${childrenHTML}</${this.tagName}>`;
+        }
+    };
+}
 
 function parseHeaders(data){
     var result = ''
@@ -8,13 +31,16 @@ function parseHeaders(data){
     const parser = new DOMParser();
     const dom = parser.parseFromString(parseresult,'text/html')
     const headers = dom.querySelectorAll('h1, h2, h3, h4, h5, h6');
-    console.log(headers.length)
+    
+    let node = createNode('ul', '', {}, []);
     headers.forEach(header => {
-        result += header.outerHTML +'\n';
+        let innerNode = createNode('li','', {"class":header.tagName}, []);
+        innerNode.children.push(createNode('a', header.innerHTML, {"href":`#${slugify(header.innerHTML)}`}, []));
+        node.children.push(innerNode);
         console.log(header.innerHTML)
     })
     console.log(result)
-    return result;
+    return node.toString();
 }
 
 export default parseHeaders

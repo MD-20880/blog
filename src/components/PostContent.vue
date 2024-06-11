@@ -1,12 +1,13 @@
 <script setup>
 import { ref,watchEffect,defineProps } from 'vue'
 import MarkdownIt from 'markdown-it';
+import anchor from 'markdown-it-anchor'
 
 const md = MarkdownIt({
   html: true,
   linkify: true,
   typographer: true
-})
+}).use(anchor)
 
 const props = defineProps(['content'])
 const content = ref('')
