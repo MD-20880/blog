@@ -11,6 +11,10 @@ import { onMounted,ref,watch} from 'vue';
 
     watch(scrollY, (newValue,oldValue) => {
         if (newValue > 100) {
+          if(newValue-oldValue > 10){
+            transparency.value = 0;
+            console.log(transparency.value)
+          }
           if(newValue-oldValue > 0){
             transparency.value -= 10
             transparency.value = Math.max(0,transparency.value)
