@@ -1,7 +1,7 @@
+import { slugify } from './utils';
 import MarkdownIt from 'markdown-it';
 import anchor from 'markdown-it-anchor';
 
-const slugify = (s) => encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-'))
 
 function createNode(tagName, innerHTML, attributes, children) {
     return {
