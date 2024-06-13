@@ -1,11 +1,11 @@
 <template>
-    <div class="all-posts-inner-wrapper">
+    <div v-if="totalPosts != 0" class="all-posts-inner-wrapper">
         <span v-if="totalPosts != 0"  v-for="i in postsPerPage" :key="i">
-            <PostPreview v-if="posts.posts[(currentPage-1)*postsPerPage+i]" 
-            :title="posts.posts[(currentPage-1)*postsPerPage+i].title" 
-            :description="posts.posts[(currentPage-1)*postsPerPage+i].description" 
-            :date="posts.posts[(currentPage-1)*postsPerPage+i].date" 
-            :tags="posts.posts[(currentPage-1)*postsPerPage+i].tags" />
+            <PostPreview v-if="posts[(currentPage-1)*postsPerPage+i]" 
+            :title="posts[(currentPage-1)*postsPerPage+i].title" 
+            :description="posts[(currentPage-1)*postsPerPage+i].description" 
+            :date="posts[(currentPage-1)*postsPerPage+i].date" 
+            :tags="posts[(currentPage-1)*postsPerPage+i].tags" />
         </span>
            
         <div class="pagination">
@@ -21,33 +21,15 @@
 
 
 <script setup>
-import { onMounted, ref , computed} from 'vue'
+import { onMounted, ref , defineProps} from 'vue'
 import PostPreview from './components/PostPreview.vue'
+const props = defineProps(['posts'])
+console.log(props.posts.value.posts)
 
-const posts = ref({})
+const posts = props.posts.value.posts
 const currentPage = ref(1)
 const postsPerPage = 5
-const totalPosts = ref(0)
-const totalPages = ref(0)
+const totalPosts = posts != undefined ? posts.length : 0
+const totalPages = Math.ceil(totalPosts/postsPerPage)
 
-
-onMounted(() => {
-    fetch(`${window.location.origin}/posts.json`)
-        .then(response => response.json())
-        .then(data => {
-            posts.value=data
-            totalPages.value = Math.ceil(posts.value.posts.length/postsPerPage)
-            totalPosts.value = posts.value.posts.length
-            console.log(posts.value)    
-        })
-})
-
-
-
-
-//Load all posts
-
-//Generate post tag for first n posts
-
-//Display all posts
 </script>
