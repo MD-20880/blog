@@ -1,6 +1,9 @@
 <script setup>
+import {ref,computed} from 'vue'
 import Navigation from './Navigation.vue'
-import Page from './Page.vue'
+
+import Sidebar from './components/Sidebar.vue';
+
 </script>
 
 <template>
@@ -10,7 +13,7 @@ import Page from './Page.vue'
                 <Navigation />
             </div>
             <div class="page-wrapper-outer">
-                <Page />
+                <RouterView />
             </div>
         </div>
     </div>

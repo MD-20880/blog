@@ -33,7 +33,9 @@ import { onMounted,ref,watch} from 'vue';
 <template>
     <nav>
         <div class="logo-wrapper" v-bind:style="{ opacity:transparency/100 }">
-            <img alt="Blog logo" class="logo" src="./assets/logo.svg" width="45" height="45" />
+            <RouterLink to="/">
+              <img alt="Blog logo" class="logo" src="./assets/logo.svg" width="45" height="45" />
+            </RouterLink>
             <p class="navigation-blogicon-text" >Hatsuyuki</p>
         </div>
     </nav>
