@@ -5,18 +5,15 @@ import Blog from './Blog.vue'
 import Page from './Page.vue'
 import AllPosts from './AllPosts.vue';
 
-const posts = {}
+import PostsManager from './components/utils/PostsManager'
 
-const request = fetch(`${window.location.origin}/posts.json`);
-const response = await request
-const data = await response.json()
-posts.value=data
-console.log(posts.value.posts.value)    
+const posts = ref(await PostsManager.getPosts())
+console.log(posts.value)
 
 import { createWebHistory, createRouter } from 'vue-router'
 const routes = [
-  { path: '/', component: AllPosts, props: {posts:posts}},
-  { path: '/post', component: Page},
+  { path: '/', component: AllPosts},
+  { path: '/post/:id', component: Page, props:true},
 ]
 
 const router = createRouter({

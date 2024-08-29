@@ -1,6 +1,10 @@
 import MarkdownIt from "markdown-it";
 import fs from "fs";
-import { Hash } from "crypto";
+import { createHash } from "crypto";
+
+function getHash(content){
+    return createHash('md5').update(content).digest('hex')
+}
 
 function parseMetadata(metadata) {
     const lines = metadata.split('\n');
@@ -16,10 +20,11 @@ function parseMetadata(metadata) {
 
 function getPreview(post){
     return {
+        id: post.id,
         title: post.metadata.title,
         date: post.metadata.date,
         tags: post.metadata.tags,
-        content: post.content.slice(0, 100).replace(/\n/g, ' ')
+        content: post.content
     }
 }
 
@@ -51,6 +56,9 @@ const posts = []
 fs.readdirSync(postsPath).forEach(file => {
     const post = fs.readFileSync(`${postsPath}/${file}`, 'utf-8')
     const data= parsePost(post); // 提取元数据
+    const id = getHash(post)
+    console.log(id)
+    data.id = id
     posts.push(data)
 })
 

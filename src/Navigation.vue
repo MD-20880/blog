@@ -3,6 +3,8 @@ import { onMounted,ref,watch} from 'vue';
 
     let scrollY = ref('')
     let transparency = ref(100)
+
+    /* Achieve Navigationbar fadein and fadeout effect */
     onMounted(() => {
         window.addEventListener('scroll', () => {
             scrollY.value = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop
@@ -16,11 +18,11 @@ import { onMounted,ref,watch} from 'vue';
             console.log(transparency.value)
           }
           if(newValue-oldValue > 0){
-            transparency.value -= 10
+            transparency.value -= 1
             transparency.value = Math.max(0,transparency.value)
             console.log(transparency.value)
           }else{
-            transparency.value += 10
+            transparency.value += 1
             transparency.value = Math.min(100,transparency.value)
             console.log(transparency.value)
           }
@@ -32,7 +34,7 @@ import { onMounted,ref,watch} from 'vue';
 
 <template>
     <nav>
-        <div class="logo-wrapper" v-bind:style="{ opacity:transparency/100 }">
+        <div class="logo-wrapper" :style="{ opacity:transparency/100 }">
             <RouterLink to="/">
               <img alt="Blog logo" class="logo" src="./assets/logo.svg" width="45" height="45" />
             </RouterLink>
